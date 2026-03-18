@@ -1,0 +1,173 @@
+{
+  "nav": {
+    "home": "Accueil",
+    "services": "Services",
+    "howItWorks": "Comment ça marche",
+    "pricing": "Tarifs",
+    "testimonials": "Avis",
+    "contact": "Contact",
+    "cta": "Réserver",
+    "admin": "Admin"
+  },
+  "hero": {
+    "badge": "Approuvé par plus de 500 familles & entreprises",
+    "titleLine1": "Impeccable,",
+    "titleLine2": "Chaque Fois.",
+    "titleLine3": "Garanti.",
+    "subtitle": "Sparklyn propose des services de nettoyage premium et écologiques pour les particuliers et les entreprises. Agents professionnels, horaires flexibles et garantie de satisfaction 100%.",
+    "cta_primary": "Réserver Mon Nettoyage",
+    "cta_secondary": "Nos Services",
+    "trust_insured": "Entièrement Assuré",
+    "trust_eco": "Écologique",
+    "trust_rated": "5 Étoiles",
+    "trust_ontime": "Ponctualité Garantie",
+    "quote_title": "Devis Gratuit",
+    "quote_subtitle": "Sans engagement. Prix instantané.",
+    "quote_service": "Type de service",
+    "quote_service_placeholder": "Choisir un service...",
+    "quote_postcode": "Votre Code Postal",
+    "quote_postcode_placeholder": "ex: 75001",
+    "quote_size": "Taille de la propriété",
+    "quote_size_placeholder": "Sélectionner...",
+    "quote_btn": "Obtenir Mon Devis Gratuit →",
+    "quote_note": "Aucune carte de crédit requise",
+    "stat_homes": "Maisons Nettoyées",
+    "stat_satisfaction": "Taux de Satisfaction",
+    "stat_years": "Ans d'Expérience",
+    "stat_clients": "Clients Satisfaits"
+  },
+  "services": {
+    "badge": "Nos Services",
+    "title": "Nettoyage Professionnel",
+    "titleGradient": "Pour Chaque Espace",
+    "subtitle": "Du nettoyage régulier au grand ménage ponctuel, nous avons un service parfaitement adapté à vos besoins et votre budget.",
+    "from": "À partir de",
+    "bookNow": "Réserver",
+    "popular": "POPULAIRE",
+    "items": {
+      "residential": {
+        "title": "Nettoyage Résidentiel",
+        "description": "Nettoyage complet de votre maison adapté à vos besoins.",
+        "features": ["Cuisine & Salles de bain", "Chambres & Salon", "Dépoussiérage & Aspirateur", "Lavage des sols"]
+      },
+      "commercial": {
+        "title": "Nettoyage Commercial",
+        "description": "Nettoyage professionnel des bureaux et espaces commerciaux.",
+        "features": ["Espaces de bureau", "Zones d'accueil", "Sanitaires", "Salles de réunion"]
+      },
+      "deep": {
+        "title": "Grand Ménage",
+        "description": "Nettoyage en profondeur pour un renouveau total. Parfait pour les emménagements.",
+        "features": ["Intérieur des appareils", "Derrière les meubles", "Joints & carrelages", "Cadres de fenêtres"]
+      },
+      "window": {
+        "title": "Nettoyage Vitres",
+        "description": "Vitres cristallines intérieur et extérieur. Finition sans traces garantie.",
+        "features": ["Fenêtres intérieures", "Fenêtres extérieures", "Cadres & rebords", "Vérandas"]
+      },
+      "construction": {
+        "title": "Après Travaux",
+        "description": "Élimination de poussière, débris et résidus de construction après rénovation.",
+        "features": ["Élimination poussière", "Traces de peinture", "Débris de chantier", "Finition & polish"]
+      },
+      "carpet": {
+        "title": "Moquettes & Tissus",
+        "description": "Nettoyage vapeur professionnel pour moquettes, canapés et tissus d'ameublement.",
+        "features": ["Nettoyage vapeur moquette", "Canapés & fauteuils", "Détachage", "Désodorisation"]
+      }
+    }
+  },
+  "howItWorks": {
+    "badge": "Comment ça marche",
+    "title": "Propre en",
+    "titleGradient": "4 Étapes Simples",
+    "subtitle": "Faire nettoyer votre maison ou bureau n'a jamais été aussi simple.",
+    "steps": {
+      "book": { "title": "Réserver en Ligne", "desc": "Choisissez votre service, une date et un créneau. Moins de 2 minutes." },
+      "assign": { "title": "On Vous Assigne un Agent", "desc": "Nous sélectionnons un agent vérifié et expérimenté de votre secteur." },
+      "clean": { "title": "On Nettoie", "desc": "Votre agent dédié arrive à l'heure et transforme votre espace." },
+      "enjoy": { "title": "Vous Profitez", "desc": "Rentrez dans un espace immaculé. Pas satisfait ? On revient gratuitement." }
+    }
+  },
+  "pricing": {
+    "badge": "Tarifs",
+    "title": "Des Prix Simples et",
+    "titleGradient": "Transparents",
+    "subtitle": "Pas de frais cachés. Pas de surprises. Choisissez le forfait qui vous convient.",
+    "per": "par passage",
+    "popular_badge": "LE PLUS POPULAIRE",
+    "note": "Tous les prix incluent le matériel et l'équipement. TVA peut s'appliquer.",
+    "note_link": "Contactez-nous pour un devis personnalisé."
+  },
+  "booking": {
+    "badge": "Réserver un Nettoyage",
+    "title": "Planifiez Votre",
+    "titleGradient": "Nettoyage Aujourd'hui",
+    "subtitle": "Remplissez le formulaire et nous confirmons votre réservation sous 2 heures.",
+    "step1": "Service",
+    "step2": "Horaire",
+    "step3": "Coordonnées",
+    "service_label": "Type de Service",
+    "frequency_label": "Fréquence",
+    "rooms_label": "Nombre de pièces",
+    "next_schedule": "Suivant : Choisir une date →",
+    "date_label": "Date souhaitée",
+    "time_label": "Heure souhaitée",
+    "next_details": "Suivant : Vos Coordonnées →",
+    "name_label": "Nom complet",
+    "email_label": "Email",
+    "phone_label": "Téléphone",
+    "city_label": "Ville",
+    "address_label": "Adresse",
+    "notes_label": "Instructions spéciales",
+    "notes_placeholder": "Zones particulières, animaux, allergies...",
+    "back": "← Retour",
+    "submit": "Confirmer la Réservation",
+    "submitting": "Réservation...",
+    "success_title": "Réservation Confirmée !",
+    "success_desc": "Nous avons reçu votre réservation et confirmerons sous 2 heures.",
+    "success_btn": "Faire une autre réservation"
+  },
+  "testimonials": {
+    "badge": "Avis Clients",
+    "title": "Ne Prenez Pas",
+    "titleGradient": "Notre Parole pour Argent Comptant",
+    "rating": "avis",
+    "on": "sur"
+  },
+  "contact": {
+    "badge": "Nous Contacter",
+    "title": "Prenez",
+    "titleGradient": "Contact",
+    "subtitle": "Une question ou besoin d'un devis personnalisé ? Nous sommes là pour vous aider !",
+    "hours_title": "Horaires d'ouverture",
+    "weekdays": "Lundi - Vendredi",
+    "saturday": "Samedi",
+    "sunday": "Dimanche",
+    "form": {
+      "name": "Nom complet",
+      "email": "Email",
+      "phone": "Téléphone",
+      "message": "Message",
+      "message_placeholder": "Comment pouvons-nous vous aider ?",
+      "submit": "Envoyer le Message",
+      "sending": "Envoi...",
+      "success_title": "Message Reçu !",
+      "success_desc": "Nous vous répondrons dans les 2 heures.",
+      "success_btn": "Envoyer un autre message"
+    }
+  },
+  "footer": {
+    "cta_title": "Prêt pour un Intérieur Impeccable ?",
+    "cta_subtitle": "Rejoignez plus de 500 clients satisfaits. Réservez votre premier nettoyage aujourd'hui !",
+    "cta_btn": "Réserver Maintenant →",
+    "cta_quote": "Devis Gratuit",
+    "description": "Services de nettoyage premium, écologiques et professionnels pour les particuliers et les entreprises.",
+    "copyright": "Tous droits réservés."
+  },
+  "language": {
+    "fr": "Français",
+    "en": "English",
+    "es": "Español"
+  }
+}

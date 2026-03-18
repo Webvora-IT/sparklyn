@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  # ── PostgreSQL ────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: sparklyn_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: sparklyn_db
+      POSTGRES_USER: sparklyn
+      POSTGRES_PASSWORD: sparklyn_password
+    volumes:
+      - sparklyn_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sparklyn -d sparklyn_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - sparklyn_net
+
+  # ── Next.js App (production build) ───────────────
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    container_name: sparklyn_app
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://sparklyn:sparklyn_password@postgres:5432/sparklyn_db
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - sparklyn_net
+    # App is NOT exposed on the host — nginx is the entry point
+
+  # ── Nginx Reverse Proxy (production) ─────────────
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: sparklyn_nginx
+    restart: unless-stopped
+    ports:
+      - "81:80"
+      # - "444:443"   # Uncomment when SSL cert is ready
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      # - ./nginx/certs:/etc/ssl/certs:ro   # SSL certs
+    depends_on:
+      - app
+    networks:
+      - sparklyn_net
+
+volumes:
+  sparklyn_postgres_data:
+
+networks:
+  sparklyn_net:
+    driver: bridge
