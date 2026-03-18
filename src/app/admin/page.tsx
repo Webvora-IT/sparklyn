@@ -7,12 +7,16 @@ import { motion } from 'framer-motion'
 import {
   LayoutDashboard, CalendarDays, Users, Star,
   Settings, LogOut, Menu, X, TrendingUp,
-  Sparkles, Bell, Search, ChevronRight, DollarSign, MessageSquare
+  Sparkles, Bell, Search, ChevronRight, DollarSign, MessageSquare,
+  type LucideIcon,
 } from 'lucide-react'
 
 const fetcher = (url: string) => fetch(url).then(r => r.json())
 
-const navItems = [
+type NavItem = { icon: LucideIcon; label: string; href: string; active?: boolean; badge?: string }
+type Booking = { name: string; city: string; service: string; date: string; timeSlot?: string; status: string; price: number }
+
+const navItems: NavItem[] = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/admin', active: true },
   { icon: CalendarDays, label: 'Bookings', href: '/admin/bookings' },
   { icon: Star, label: 'Reviews', href: '/admin/reviews' },
@@ -181,7 +185,7 @@ export default function AdminDashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {recentBookings.map((booking, i) => (
+                    {recentBookings.map((booking: Booking, i: number) => (
                       <motion.tr
                         key={i}
                         initial={{ opacity: 0 }}
