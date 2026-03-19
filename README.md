@@ -10,12 +10,33 @@
 
 ---
 
+## 👥 Roles Utilisateurs
+
+### Visiteur (public)
+- Consulter les services de nettoyage, prix, processus
+- Effectuer une réservation en ligne en 3 étapes
+- Consulter les avis clients
+- Contacter via le formulaire de contact
+- Naviguer en FR, EN ou ES
+- Accéder aux pages légales (Confidentialité, CGU, Cookies)
+
+### Admin
+- Tableau de bord avec statistiques (réservations, revenus, clients)
+- Gestion des réservations (confirmer, démarrer, annuler, supprimer)
+- Gestion des clients (liste unifiée depuis les réservations : email, téléphone, ville, dépenses)
+- Gestion des avis (CRUD, publier/dépublier)
+- Configuration du site (infos entreprise, horaires, zones d'intervention)
+
+---
+
 ## ✨ Features
 
 - **Light theme** — Clean professional design with teal accents
 - **Multilingual** — French (default), English, Spanish via `next-intl`
 - **Online Booking** — 3-step booking form → saved to database
-- **Dynamic Admin Panel** — Manage bookings, reviews, settings in real-time
+- **Dynamic Admin Panel** — Manage bookings, clients, reviews, settings in real-time
+- **Client Management** — Aggregated client profiles from bookings (no separate model)
+- **Legal Pages** — Privacy policy, Terms of service, Cookie policy (GDPR compliant)
 - **Cloudinary** — Image upload for services and team
 - **Authentication** — NextAuth.js with JWT
 - **Nginx** — Reverse proxy with gzip, rate limiting, security headers
@@ -158,6 +179,7 @@ PENDING → CONFIRMED → IN_PROGRESS → COMPLETED
 | `/admin/login` | Login page |
 | `/admin` | Dashboard (live stats + recent bookings) |
 | `/admin/bookings` | Confirm, start, cancel, delete bookings |
+| `/admin/clients` | Client profiles aggregated from bookings |
 | `/admin/reviews` | Add, edit, publish/unpublish reviews |
 | `/admin/settings` | Company info, hours, service areas |
 
