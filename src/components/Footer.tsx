@@ -20,6 +20,27 @@ const footerLinks = {
 
 const certifications = ['✓ Fully Insured', '✓ DBS Checked', '✓ Eco-Certified', '✓ ISO 9001']
 
+function BottomLinks() {
+  const locale = useLocale()
+  const legal = [
+    { label: 'Politique de confidentialité', href: `/${locale}/privacy` },
+    { label: "Conditions d'utilisation", href: `/${locale}/terms` },
+    { label: 'Cookies', href: `/${locale}/cookies` },
+  ]
+  return (
+    <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
+      <p>© {new Date().getFullYear()} Sparklyn. Tous droits réservés.</p>
+      <div className="flex gap-6">
+        {legal.map(({ label, href }) => (
+          <Link key={label} href={href} className="hover:text-gray-300 transition-colors">
+            {label}
+          </Link>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function FooterLinks({ footerLinks }: { footerLinks: Record<string, string[]> }) {
   const locale = useLocale()
   return (
@@ -180,16 +201,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500">
-          <p>© 2024 Sparklyn. Tous droits réservés.</p>
-          <div className="flex gap-6">
-            {['Politique de confidentialité', "Conditions d'utilisation", 'Cookies'].map((link) => (
-              <a key={link} href="#" className="hover:text-gray-300 transition-colors">
-                {link}
-              </a>
-            ))}
-          </div>
-        </div>
+        <BottomLinks />
       </div>
     </footer>
   )

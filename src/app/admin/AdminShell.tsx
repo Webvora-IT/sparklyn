@@ -7,7 +7,7 @@ import { signOut } from 'next-auth/react'
 import { motion } from 'framer-motion'
 import {
   LayoutDashboard, CalendarDays, Star, Settings, LogOut,
-  Menu, X, Bell, Sparkles, Wrench, MessageSquare, ExternalLink,
+  Menu, X, Bell, Sparkles, Wrench, MessageSquare, ExternalLink, Users,
   type LucideIcon,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -17,6 +17,7 @@ type NavItem = { icon: LucideIcon; label: string; href: string; exact?: boolean 
 const navItems: NavItem[] = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/admin', exact: true },
   { icon: CalendarDays, label: 'Bookings', href: '/admin/bookings' },
+  { icon: Users, label: 'Clients', href: '/admin/clients' },
   { icon: Wrench, label: 'Services', href: '/admin/services' },
   { icon: MessageSquare, label: 'Contacts', href: '/admin/contacts' },
   { icon: Star, label: 'Reviews', href: '/admin/reviews' },
