@@ -1,9 +1,24 @@
 import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcryptjs'
 
 const prisma = new PrismaClient()
 
 async function main() {
   console.log('🌱 Seeding Sparklyn database...')
+
+  // Seed admin user
+  const hashedPassword = await bcrypt.hash('Admin@Sparklyn2024', 12)
+  await prisma.user.upsert({
+    where: { email: 'admin@sparklyn.com' },
+    update: {},
+    create: {
+      email: 'admin@sparklyn.com',
+      password: hashedPassword,
+      name: 'Admin User',
+      role: 'ADMIN',
+    },
+  })
+  console.log('✅ Admin user: admin@sparklyn.com / Admin@Sparklyn2024')
 
   // Seed services
   await prisma.service.createMany({

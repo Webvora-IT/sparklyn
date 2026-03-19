@@ -22,16 +22,26 @@ export default function BookingsPage() {
   const [statusFilter, setStatusFilter] = useState('ALL')
 
   const updateStatus = async (id: string, status: string) => {
-    await fetch(`/api/admin/bookings/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) })
-    mutate()
-    toast.success(`Status → ${status}`)
+    try {
+      const res = await fetch(`/api/admin/bookings/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) })
+      if (!res.ok) throw new Error()
+      mutate()
+      toast.success(`Status → ${status}`)
+    } catch {
+      toast.error('Failed to update status')
+    }
   }
 
   const deleteBooking = async (id: string) => {
     if (!confirm('Delete this booking?')) return
-    await fetch(`/api/admin/bookings/${id}`, { method: 'DELETE' })
-    mutate()
-    toast.success('Booking deleted')
+    try {
+      const res = await fetch(`/api/admin/bookings/${id}`, { method: 'DELETE' })
+      if (!res.ok) throw new Error()
+      mutate()
+      toast.success('Booking deleted')
+    } catch {
+      toast.error('Failed to delete booking')
+    }
   }
 
   const filtered = (bookings as any[]).filter(b => {

@@ -48,25 +48,41 @@ export default function ServicesPage() {
       popular: form.popular,
       published: form.published,
     }
-    if (editing) {
-      await fetch(`/api/admin/services/${editing.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-      toast.success('Service updated')
-    } else {
-      await fetch('/api/admin/services', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-      toast.success('Service created')
+    try {
+      if (editing) {
+        const res = await fetch(`/api/admin/services/${editing.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        if (!res.ok) throw new Error()
+        toast.success('Service updated')
+      } else {
+        const res = await fetch('/api/admin/services', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
+        if (!res.ok) throw new Error()
+        toast.success('Service created')
+      }
+      mutate(); setModal(false)
+    } catch {
+      toast.error('Failed to save service')
     }
-    mutate(); setModal(false)
   }
 
   const togglePublish = async (s: Service) => {
-    await fetch(`/api/admin/services/${s.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ published: !s.published }) })
-    mutate(); toast.success(s.published ? 'Hidden' : 'Published')
+    try {
+      const res = await fetch(`/api/admin/services/${s.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ published: !s.published }) })
+      if (!res.ok) throw new Error()
+      mutate(); toast.success(s.published ? 'Hidden' : 'Published')
+    } catch {
+      toast.error('Failed to update service')
+    }
   }
 
   const deleteService = async (id: string) => {
     if (!confirm('Delete this service?')) return
-    await fetch(`/api/admin/services/${id}`, { method: 'DELETE' })
-    mutate(); toast.success('Deleted')
+    try {
+      const res = await fetch(`/api/admin/services/${id}`, { method: 'DELETE' })
+      if (!res.ok) throw new Error()
+      mutate(); toast.success('Deleted')
+    } catch {
+      toast.error('Failed to delete service')
+    }
   }
 
   const inputCls = 'w-full border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-teal-400 bg-white'

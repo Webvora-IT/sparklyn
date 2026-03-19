@@ -25,16 +25,26 @@ export default function ContactsPage() {
   const [expanded, setExpanded] = useState<string | null>(null)
 
   const updateStatus = async (id: string, status: string) => {
-    await fetch(`/api/admin/contacts/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) })
-    mutate()
-    toast.success(`Marked as ${status.toLowerCase()}`)
+    try {
+      const res = await fetch(`/api/admin/contacts/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status }) })
+      if (!res.ok) throw new Error()
+      mutate()
+      toast.success(`Marked as ${status.toLowerCase()}`)
+    } catch {
+      toast.error('Failed to update status')
+    }
   }
 
   const deleteContact = async (id: string) => {
     if (!confirm('Delete this message?')) return
-    await fetch(`/api/admin/contacts/${id}`, { method: 'DELETE' })
-    mutate()
-    toast.success('Deleted')
+    try {
+      const res = await fetch(`/api/admin/contacts/${id}`, { method: 'DELETE' })
+      if (!res.ok) throw new Error()
+      mutate()
+      toast.success('Deleted')
+    } catch {
+      toast.error('Failed to delete message')
+    }
   }
 
   const filtered = (contacts as Contact[]).filter(c => {

@@ -23,25 +23,41 @@ export default function ReviewsPage() {
 
   const save = async () => {
     if (!form.name || !form.content) { toast.error('Name and content are required'); return }
-    if (editing) {
-      await fetch(`/api/admin/reviews/${editing.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
-      toast.success('Review updated')
-    } else {
-      await fetch('/api/admin/reviews', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
-      toast.success('Review added')
+    try {
+      if (editing) {
+        const res = await fetch(`/api/admin/reviews/${editing.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
+        if (!res.ok) throw new Error()
+        toast.success('Review updated')
+      } else {
+        const res = await fetch('/api/admin/reviews', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(form) })
+        if (!res.ok) throw new Error()
+        toast.success('Review added')
+      }
+      mutate(); setModal(false)
+    } catch {
+      toast.error('Failed to save review')
     }
-    mutate(); setModal(false)
   }
 
   const togglePublish = async (r: Review) => {
-    await fetch(`/api/admin/reviews/${r.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ published: !r.published }) })
-    mutate(); toast.success(r.published ? 'Unpublished' : 'Published')
+    try {
+      const res = await fetch(`/api/admin/reviews/${r.id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ published: !r.published }) })
+      if (!res.ok) throw new Error()
+      mutate(); toast.success(r.published ? 'Unpublished' : 'Published')
+    } catch {
+      toast.error('Failed to update review')
+    }
   }
 
   const deleteReview = async (id: string) => {
     if (!confirm('Delete this review?')) return
-    await fetch(`/api/admin/reviews/${id}`, { method: 'DELETE' })
-    mutate(); toast.success('Deleted')
+    try {
+      const res = await fetch(`/api/admin/reviews/${id}`, { method: 'DELETE' })
+      if (!res.ok) throw new Error()
+      mutate(); toast.success('Deleted')
+    } catch {
+      toast.error('Failed to delete review')
+    }
   }
 
   return (
