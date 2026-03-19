@@ -46,13 +46,3 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function GET() {
-  try {
-    const bookings = await prisma.booking.findMany({
-      orderBy: { createdAt: 'desc' },
-    })
-    return NextResponse.json(bookings)
-  } catch (error) {
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-  }
-}

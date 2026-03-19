@@ -1,86 +1,109 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { Home, Building, Sparkles, Eye, Hammer, Armchair, ArrowRight, Check } from 'lucide-react'
+import { ArrowRight, Check } from 'lucide-react'
 
-const services = [
+const COLOR_PALETTE = [
+  { color: 'from-teal-400 to-teal-600', border: 'border-teal-100' },
+  { color: 'from-sky-400 to-sky-600', border: 'border-sky-100' },
+  { color: 'from-purple-400 to-purple-600', border: 'border-purple-100' },
+  { color: 'from-blue-400 to-blue-600', border: 'border-blue-100' },
+  { color: 'from-orange-400 to-orange-600', border: 'border-orange-100' },
+  { color: 'from-emerald-400 to-emerald-600', border: 'border-emerald-100' },
+]
+
+const STATIC_SERVICES = [
   {
-    icon: Home,
+    id: 'residential',
+    icon: '🏠',
     title: 'Residential Cleaning',
     description: 'Complete home cleaning tailored to your needs. We clean every corner so you can relax.',
     features: ['Kitchen & Bathrooms', 'Bedrooms & Living areas', 'Dusting & Vacuuming', 'Mopping all floors'],
-    priceFrom: '€49',
+    priceFrom: 49,
     duration: '2-4 hours',
-    color: 'from-teal-400 to-teal-600',
-    bg: 'bg-teal-50',
-    border: 'border-teal-100',
     popular: false,
   },
   {
-    icon: Building,
+    id: 'commercial',
+    icon: '🏢',
     title: 'Commercial Cleaning',
     description: 'Professional office and commercial space cleaning. Keep your workspace spotless and productive.',
     features: ['Office spaces', 'Reception areas', 'Bathrooms', 'Conference rooms'],
-    priceFrom: '€89',
+    priceFrom: 89,
     duration: '3-6 hours',
-    color: 'from-sky-400 to-sky-600',
-    bg: 'bg-sky-50',
-    border: 'border-sky-100',
     popular: true,
   },
   {
-    icon: Sparkles,
+    id: 'deep',
+    icon: '✨',
     title: 'Deep Cleaning',
     description: 'Thorough deep clean reaching every hidden corner. Perfect for moving in or seasonal refresh.',
     features: ['Inside appliances', 'Behind furniture', 'Grout & tiles', 'Window tracks'],
-    priceFrom: '€129',
+    priceFrom: 129,
     duration: '5-8 hours',
-    color: 'from-purple-400 to-purple-600',
-    bg: 'bg-purple-50',
-    border: 'border-purple-100',
     popular: false,
   },
   {
-    icon: Eye,
+    id: 'window',
+    icon: '🪟',
     title: 'Window Cleaning',
     description: 'Crystal clear windows inside and out. Let the light in with streak-free professional cleaning.',
     features: ['Interior windows', 'Exterior windows', 'Frames & sills', 'Conservatories'],
-    priceFrom: '€35',
+    priceFrom: 35,
     duration: '1-3 hours',
-    color: 'from-blue-400 to-blue-600',
-    bg: 'bg-blue-50',
-    border: 'border-blue-100',
     popular: false,
   },
   {
-    icon: Hammer,
+    id: 'construction',
+    icon: '🔨',
     title: 'Post-Construction',
     description: 'Remove dust, debris and construction residue. Ready to move in clean after renovation.',
     features: ['Dust removal', 'Paint splashes', 'Construction debris', 'Final polish'],
-    priceFrom: '€199',
+    priceFrom: 199,
     duration: '6-12 hours',
-    color: 'from-orange-400 to-orange-600',
-    bg: 'bg-orange-50',
-    border: 'border-orange-100',
     popular: false,
   },
   {
-    icon: Armchair,
+    id: 'carpet',
+    icon: '🛋️',
     title: 'Carpet & Upholstery',
     description: 'Professional steam cleaning for carpets, sofas, and upholstery. Remove stains and allergens.',
     features: ['Carpet steam clean', 'Sofa & chairs', 'Stain removal', 'Deodorizing'],
-    priceFrom: '€79',
+    priceFrom: 79,
     duration: '2-4 hours',
-    color: 'from-emerald-400 to-emerald-600',
-    bg: 'bg-emerald-50',
-    border: 'border-emerald-100',
     popular: false,
   },
 ]
 
+interface ApiService {
+  id: string
+  icon: string
+  title: string
+  description: string
+  features: string[]
+  priceFrom?: number | null
+  duration?: string | null
+  popular: boolean
+  published: boolean
+  order: number
+}
+
 export default function Services() {
   const [ref, inView] = useInView({ triggerOnce: true })
+  const [services, setServices] = useState(STATIC_SERVICES)
+
+  useEffect(() => {
+    fetch('/api/services')
+      .then(r => r.json())
+      .then((data: ApiService[]) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setServices(data)
+        }
+      })
+      .catch(() => {/* keep static data */})
+  }, [])
 
   return (
     <section id="services" className="py-24 bg-gray-50">
@@ -109,15 +132,15 @@ export default function Services() {
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service, i) => {
-            const Icon = service.icon
+            const palette = COLOR_PALETTE[i % COLOR_PALETTE.length]
             return (
               <motion.div
-                key={i}
+                key={service.id}
                 initial={{ opacity: 0, y: 40 }}
                 animate={inView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: i * 0.1 }}
                 whileHover={{ y: -6 }}
-                className={`relative bg-white rounded-3xl p-6 border ${service.border} clean-shadow hover:clean-shadow-lg transition-all group overflow-hidden`}
+                className={`relative bg-white rounded-3xl p-6 border ${palette.border} clean-shadow hover:clean-shadow-lg transition-all group overflow-hidden`}
               >
                 {service.popular && (
                   <div className="absolute top-4 right-4 px-3 py-1 bg-gradient-to-r from-primary-500 to-sky-500 text-white text-xs font-bold rounded-full">
@@ -125,8 +148,8 @@ export default function Services() {
                   </div>
                 )}
 
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform`}>
-                  <Icon size={26} className="text-white" />
+                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${palette.color} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform text-2xl`}>
+                  {service.icon}
                 </div>
 
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{service.title}</h3>
@@ -144,8 +167,10 @@ export default function Services() {
                 <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                   <div>
                     <span className="text-xs text-gray-400">From</span>
-                    <div className="text-2xl font-bold text-primary-600">{service.priceFrom}</div>
-                    <span className="text-xs text-gray-400">{service.duration}</span>
+                    <div className="text-2xl font-bold text-primary-600">
+                      {service.priceFrom ? `€${service.priceFrom}` : 'Quote'}
+                    </div>
+                    {service.duration && <span className="text-xs text-gray-400">{service.duration}</span>}
                   </div>
                   <a
                     href="#booking"

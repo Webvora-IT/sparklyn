@@ -48,8 +48,8 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
 
         {/* Nav */}
         <nav className="flex-1 p-3 space-y-1 overflow-hidden">
-          {navItems.map(({ icon: Icon, label, href }) => {
-            const active = isActive({ icon, label, href, exact: href === '/admin' })
+          {navItems.map(({ icon: Icon, label, href, exact }) => {
+            const active = isActive({ icon: Icon, label, href, exact })
             return (
               <Link key={href} href={href}>
                 <motion.div

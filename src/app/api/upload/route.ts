@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/lib/auth'
 import { uploadImage, deleteImage } from '@/lib/cloudinary'
 
 export async function POST(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
+    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     const formData = await req.formData()
     const file = formData.get('file') as File
     const folder = (formData.get('folder') as string) || 'sparklyn'
@@ -26,6 +30,8 @@ export async function POST(req: NextRequest) {
 
 export async function DELETE(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions)
+    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     const { publicId } = await req.json()
     if (!publicId) return NextResponse.json({ error: 'No publicId' }, { status: 400 })
     await deleteImage(publicId)

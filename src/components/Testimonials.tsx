@@ -1,11 +1,13 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { Star, Quote } from 'lucide-react'
 
-const reviews = [
+const STATIC_REVIEWS = [
   {
+    id: '1',
     name: 'Emma Thompson',
     location: 'London, UK',
     service: 'Residential Cleaning',
@@ -14,6 +16,7 @@ const reviews = [
     avatar: '👩‍🦰',
   },
   {
+    id: '2',
     name: 'Michael Chen',
     location: 'Manchester, UK',
     service: 'Commercial Cleaning',
@@ -22,6 +25,7 @@ const reviews = [
     avatar: '👨‍💼',
   },
   {
+    id: '3',
     name: 'Sophie Laurent',
     location: 'Birmingham, UK',
     service: 'Deep Cleaning',
@@ -30,6 +34,7 @@ const reviews = [
     avatar: '👩‍💼',
   },
   {
+    id: '4',
     name: 'James Williams',
     location: 'Bristol, UK',
     service: 'Post-Construction',
@@ -38,6 +43,7 @@ const reviews = [
     avatar: '👨‍🔧',
   },
   {
+    id: '5',
     name: 'Priya Sharma',
     location: 'Leeds, UK',
     service: 'Carpet Cleaning',
@@ -46,6 +52,7 @@ const reviews = [
     avatar: '👩‍🦱',
   },
   {
+    id: '6',
     name: 'David Murphy',
     location: 'Edinburgh, UK',
     service: 'Window Cleaning',
@@ -55,8 +62,30 @@ const reviews = [
   },
 ]
 
+interface ApiReview {
+  id: string
+  name: string
+  location: string
+  service: string
+  content: string
+  rating: number
+  avatar?: string | null
+}
+
 export default function Testimonials() {
   const [ref, inView] = useInView({ triggerOnce: true })
+  const [reviews, setReviews] = useState(STATIC_REVIEWS)
+
+  useEffect(() => {
+    fetch('/api/reviews')
+      .then(r => r.json())
+      .then((data: ApiReview[]) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setReviews(data)
+        }
+      })
+      .catch(() => {/* keep static data */})
+  }, [])
 
   return (
     <section id="testimonials" className="py-24 bg-gradient-to-br from-primary-50 via-white to-sky-50">
@@ -86,7 +115,7 @@ export default function Testimonials() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reviews.map((review, i) => (
             <motion.div
-              key={i}
+              key={review.id}
               initial={{ opacity: 0, y: 40 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: i * 0.1 }}
@@ -104,7 +133,13 @@ export default function Testimonials() {
               <p className="text-gray-600 text-sm leading-relaxed mb-5">&ldquo;{review.content}&rdquo;</p>
 
               <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
-                <span className="text-3xl">{review.avatar}</span>
+                {review.avatar ? (
+                  <span className="text-3xl">{review.avatar}</span>
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-teal-400 to-sky-500 flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
+                    {review.name.charAt(0)}
+                  </div>
+                )}
                 <div>
                   <div className="font-semibold text-gray-900">{review.name}</div>
                   <div className="text-xs text-gray-400">{review.location}</div>
