@@ -1,0 +1,34 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { getToken } from 'next-auth/jwt'
+import createIntlMiddleware from 'next-intl/middleware'
+
+const intlMiddleware = createIntlMiddleware({
+  locales: ['fr', 'en', 'es'],
+  defaultLocale: 'fr',
+})
+
+export default async function middleware(req: NextRequest) {
+  const pathname = req.nextUrl.pathname
+
+  // Admin route protection (all /admin/* except /admin/login)
+  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
+    if (!token) {
+      const loginUrl = new URL('/admin/login', req.url)
+      loginUrl.searchParams.set('callbackUrl', pathname)
+      return NextResponse.redirect(loginUrl)
+    }
+    return NextResponse.next()
+  }
+
+  // Apply next-intl to all non-admin routes
+  if (!pathname.startsWith('/admin') && !pathname.startsWith('/api')) {
+    return intlMiddleware(req)
+  }
+
+  return NextResponse.next()
+}
+
+export const config = {
+  matcher: ['/((?!_next|.*\\..*).*)'],
+}
