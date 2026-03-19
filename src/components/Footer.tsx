@@ -1,7 +1,9 @@
 'use client'
 
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Sparkles, Phone, Mail, MapPin, Facebook, Instagram, Twitter, Linkedin, Star } from 'lucide-react'
+import { useLocale } from 'next-intl'
 
 const footerLinks = {
   Services: [
@@ -13,10 +15,54 @@ const footerLinks = {
     'Carpet & Upholstery',
   ],
   Company: ['About Us', 'Our Team', 'Careers', 'Blog', 'Press Kit'],
-  Support: ['FAQ', 'Contact Us', 'Book a Clean', 'Pricing', 'Areas We Cover'],
+  Support: ['FAQ', 'Contact Us', 'Book a Clean', 'Vérifier ma réservation', 'Laisser un avis'],
 }
 
 const certifications = ['✓ Fully Insured', '✓ DBS Checked', '✓ Eco-Certified', '✓ ISO 9001']
+
+function FooterLinks({ footerLinks }: { footerLinks: Record<string, string[]> }) {
+  const locale = useLocale()
+  return (
+    <>
+      {Object.entries(footerLinks).map(([title, links]) => (
+        <div key={title}>
+          <h4 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">{title}</h4>
+          <ul className="space-y-2.5">
+            {links.map((link) => (
+              <li key={link}>
+                {link === 'Laisser un avis' ? (
+                  <Link
+                    href={`/${locale}/avis`}
+                    className="text-gray-400 hover:text-primary-400 text-sm transition-colors flex items-center gap-1.5 group"
+                  >
+                    <span className="w-0 group-hover:w-3 h-0.5 bg-primary-500 transition-all duration-200 rounded" />
+                    {link}
+                  </Link>
+                ) : link === 'Vérifier ma réservation' ? (
+                  <Link
+                    href={`/${locale}/reservation`}
+                    className="text-gray-400 hover:text-primary-400 text-sm transition-colors flex items-center gap-1.5 group"
+                  >
+                    <span className="w-0 group-hover:w-3 h-0.5 bg-primary-500 transition-all duration-200 rounded" />
+                    {link}
+                  </Link>
+                ) : (
+                  <a
+                    href="#"
+                    className="text-gray-400 hover:text-primary-400 text-sm transition-colors flex items-center gap-1.5 group"
+                  >
+                    <span className="w-0 group-hover:w-3 h-0.5 bg-primary-500 transition-all duration-200 rounded" />
+                    {link}
+                  </a>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </>
+  )
+}
 
 export default function Footer() {
   return (
@@ -121,24 +167,7 @@ export default function Footer() {
           </div>
 
           {/* Links columns */}
-          {Object.entries(footerLinks).map(([title, links]) => (
-            <div key={title}>
-              <h4 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">{title}</h4>
-              <ul className="space-y-2.5">
-                {links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
-                      className="text-gray-400 hover:text-primary-400 text-sm transition-colors flex items-center gap-1.5 group"
-                    >
-                      <span className="w-0 group-hover:w-3 h-0.5 bg-primary-500 transition-all duration-200 rounded" />
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+          <FooterLinks footerLinks={footerLinks} />
         </div>
 
         {/* Certifications */}

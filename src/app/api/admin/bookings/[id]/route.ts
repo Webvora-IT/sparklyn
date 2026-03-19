@@ -2,13 +2,31 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { sendBookingStatusUpdate } from '@/lib/email'
 
 export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
   try {
     const session = await getServerSession(authOptions)
     if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
     const data = await req.json()
+
+    // Get old booking to detect status change
+    const old = await prisma.booking.findUnique({ where: { id: params.id } })
     const booking = await prisma.booking.update({ where: { id: params.id }, data })
+
+    // Send email if status changed to a notable status
+    if (old && data.status && old.status !== data.status) {
+      sendBookingStatusUpdate({
+        name: booking.name,
+        email: booking.email,
+        service: booking.service,
+        date: booking.date.toISOString(),
+        status: booking.status,
+        bookingId: booking.id,
+      }).catch(err => console.error('Status email error:', err))
+    }
+
     return NextResponse.json(booking)
   } catch (error) {
     console.error('PATCH admin/bookings/[id] error:', error)

@@ -5,10 +5,11 @@ import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X, Sparkles } from 'lucide-react'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
-import { useTranslations } from 'next-intl'
+import { useTranslations, useLocale } from 'next-intl'
 
 export default function Navbar() {
   const t = useTranslations('nav')
+  const locale = useLocale()
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
@@ -66,6 +67,9 @@ export default function Navbar() {
           {/* CTA */}
           <div className="hidden md:flex items-center gap-3">
             <LanguageSwitcher />
+            <Link href={`/${locale}/reservation`}>
+              <span className="text-sm text-gray-500 hover:text-primary-600 transition-colors">Ma réservation</span>
+            </Link>
             <Link href="/admin">
               <span className="text-sm text-gray-500 hover:text-gray-700 transition-colors">{t('admin')}</span>
             </Link>

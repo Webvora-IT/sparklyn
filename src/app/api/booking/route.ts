@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { sendBookingConfirmation, sendBookingNotificationToAdmin } from '@/lib/email'
 
 export async function POST(req: NextRequest) {
   try {
@@ -38,6 +39,23 @@ export async function POST(req: NextRequest) {
         status: 'PENDING',
       },
     })
+
+    // Send emails (non-blocking)
+    Promise.all([
+      sendBookingConfirmation({
+        name, email, service, date, timeSlot,
+        address: address || '',
+        city: city || '',
+        bookingId: booking.id,
+      }),
+      sendBookingNotificationToAdmin({
+        name, email, phone, service, date, timeSlot,
+        address: address || '',
+        city: city || '',
+        frequency, notes,
+        bookingId: booking.id,
+      }),
+    ]).catch(err => console.error('Email send error:', err))
 
     return NextResponse.json({ success: true, id: booking.id })
   } catch (error) {
